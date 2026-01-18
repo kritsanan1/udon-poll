@@ -13,20 +13,20 @@ interface CandidateCardProps {
 export function CandidateCard({ candidate, isSelected, disabled }: CandidateCardProps) {
   return (
     <Card 
-      className={`relative transition-all duration-200 cursor-pointer hover:shadow-lg ${
+      className={`relative transition-all duration-200 cursor-pointer rounded-2xl shadow-lg hover:shadow-xl ${
         isSelected 
-          ? 'ring-2 ring-offset-2 shadow-lg scale-[1.02]' 
+          ? 'ring-2 ring-offset-2 shadow-xl scale-[1.02]' 
           : 'hover:scale-[1.01]'
       } ${disabled ? 'opacity-60 cursor-not-allowed' : ''}`}
       style={{ 
-        borderColor: isSelected ? candidate.party_color : undefined,
-        borderWidth: isSelected ? '2px' : undefined,
+        borderColor: isSelected ? candidate.party_color : 'transparent',
+        borderWidth: '2px',
         '--ring-color': candidate.party_color,
       } as React.CSSProperties}
     >
       {/* Candidate Number Badge */}
       <div 
-        className="absolute -top-3 -left-3 w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-md z-10"
+        className="absolute -top-3 -left-3 w-11 h-11 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg z-10 ring-2 ring-white"
         style={{ backgroundColor: candidate.party_color }}
       >
         {candidate.candidate_number}
@@ -37,17 +37,32 @@ export function CandidateCard({ candidate, isSelected, disabled }: CandidateCard
           htmlFor={`candidate-${candidate.id}`}
           className="flex flex-col items-center cursor-pointer"
         >
-          {/* Photo */}
-          <div 
-            className="w-24 h-24 rounded-full overflow-hidden mb-3 ring-4"
-            style={{ '--tw-ring-color': candidate.party_color } as React.CSSProperties}
-          >
-            <img 
-              src={candidate.photo_url} 
-              alt={candidate.name_th}
-              className="w-full h-full object-cover"
-              loading="lazy"
-            />
+          {/* Photo with Party Logo */}
+          <div className="relative">
+            <div 
+              className="w-24 h-24 rounded-full overflow-hidden mb-3 ring-4 shadow-md"
+              style={{ '--tw-ring-color': candidate.party_color } as React.CSSProperties}
+            >
+              <img 
+                src={candidate.photo_url} 
+                alt={candidate.name_th}
+                className="w-full h-full object-cover"
+                loading="lazy"
+              />
+            </div>
+            
+            {/* Party Logo Badge */}
+            {candidate.party_logo_url && (
+              <div 
+                className="absolute -bottom-1 -right-1 w-8 h-8 rounded-full overflow-hidden ring-2 ring-white shadow-md bg-white"
+              >
+                <img 
+                  src={candidate.party_logo_url}
+                  alt={`${candidate.party_th} logo`}
+                  className="w-full h-full object-contain p-0.5"
+                />
+              </div>
+            )}
           </div>
 
           {/* Name */}
@@ -57,10 +72,11 @@ export function CandidateCard({ candidate, isSelected, disabled }: CandidateCard
 
           {/* Party */}
           <p 
-            className="text-xs text-center font-medium px-2 py-1 rounded-full"
+            className="text-xs text-center font-medium px-3 py-1 rounded-full shadow-sm"
             style={{ 
-              backgroundColor: `${candidate.party_color}20`,
+              backgroundColor: `${candidate.party_color}15`,
               color: candidate.party_color,
+              border: `1px solid ${candidate.party_color}30`
             }}
           >
             {candidate.party_th}
@@ -72,7 +88,7 @@ export function CandidateCard({ candidate, isSelected, disabled }: CandidateCard
               value={String(candidate.id)} 
               id={`candidate-${candidate.id}`}
               disabled={disabled}
-              className="border-2"
+              className="border-2 w-5 h-5"
               style={{ borderColor: candidate.party_color }}
             />
           </div>
@@ -80,7 +96,7 @@ export function CandidateCard({ candidate, isSelected, disabled }: CandidateCard
           {/* View Profile Link */}
           <Link 
             to={`/candidate/${candidate.candidate_number}`}
-            className="mt-2 text-xs text-muted-foreground hover:text-primary underline"
+            className="mt-2 text-xs text-muted-foreground hover:text-primary underline transition-colors"
             onClick={(e) => e.stopPropagation()}
           >
             ดูประวัติ

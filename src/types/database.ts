@@ -7,6 +7,7 @@ export interface Candidate {
   party_color: string;
   photo_url: string;
   facebook_url: string | null;
+  party_logo_url: string | null;
   created_at: string;
 }
 
