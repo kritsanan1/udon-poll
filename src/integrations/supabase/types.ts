@@ -23,6 +23,7 @@ export type Database = {
           name_th: string
           party_color: string
           party_en: string
+          party_logo_url: string | null
           party_th: string
           photo_url: string
         }
@@ -34,6 +35,7 @@ export type Database = {
           name_th: string
           party_color: string
           party_en: string
+          party_logo_url?: string | null
           party_th: string
           photo_url: string
         }
@@ -45,6 +47,7 @@ export type Database = {
           name_th?: string
           party_color?: string
           party_en?: string
+          party_logo_url?: string | null
           party_th?: string
           photo_url?: string
         }
